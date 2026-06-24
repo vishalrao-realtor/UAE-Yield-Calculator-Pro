@@ -1,0 +1,891 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UAE Multi-Emirate Net Yield Analyst — Vishal Rao</title>
+    <style>
+        :root {
+            --bg-color: #030712;
+            --card-bg: rgba(17, 24, 39, 0.75);
+            --card-border: rgba(255, 255, 255, 0.06);
+            --text-primary: #f9fafb;
+            --text-secondary: #9ca3af;
+            --accent: #0ea5e9;
+            --accent-glow: rgba(14, 165, 233, 0.15);
+            --input-bg: #0b0f19;
+            --table-header: #090d16;
+            --whatsapp: #22c55e;
+            --whatsapp-hover: #16a34a;
+        }
+
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            background-image: radial-gradient(circle at top right, rgba(14, 165, 233, 0.08), transparent 40%),
+                              radial-gradient(circle at bottom left, rgba(34, 197, 94, 0.03), transparent 35%);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            -webkit-font-smoothing: antialiased;
+        }
+
+
+        .container {
+            width: 100%;
+            max-width: 840px;
+            background: var(--card-bg);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            padding: 40px;
+            border-radius: 24px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7);
+        }
+
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.6px;
+            text-align: center;
+            margin-bottom: 4px;
+            background: linear-gradient(145deg, #ffffff 40%, #9ca3af 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+
+        .subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+
+
+        .author-tag {
+            text-align: center;
+            font-size: 11px;
+            color: var(--accent);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 35px;
+            font-weight: 600;
+        }
+
+
+        /* 7-Emirate Apple Grid Control */
+        .emirate-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(105px, 1fr));
+            gap: 6px;
+            background: rgba(0, 0, 0, 0.35);
+            padding: 4px;
+            border-radius: 14px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+
+        .emirate-btn {
+            border: none;
+            background: transparent;
+            padding: 10px 4px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-radius: 9px;
+            transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+            text-align: center;
+        }
+
+
+        .emirate-btn.active {
+            background: #27272a;
+            color: #ffffff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+
+        /* Market Strategy Switch */
+        .toggle-group {
+            display: flex;
+            background: rgba(0, 0, 0, 0.35);
+            padding: 3px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+
+        .toggle-btn {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-radius: 9px;
+            transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+
+        .toggle-btn.active {
+            background: #27272a;
+            color: #ffffff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+
+        .section-title {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-secondary);
+            margin: 32px 0 16px 0;
+            padding-bottom: 6px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+
+        @media (max-width: 640px) {
+            .grid { grid-template-columns: 1fr; }
+            .container { padding: 20px; }
+        }
+
+
+        .input-wrapper {
+            display: flex;
+            flex-direction: column;
+        }
+
+
+        label {
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 6px;
+            color: #e5e7eb;
+        }
+
+
+        .hint {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-top: 5px;
+            line-height: 1.4;
+        }
+
+
+        .input-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+
+        .input-box span {
+            position: absolute;
+            left: 14px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+
+        .input-box input {
+            width: 100%;
+            padding: 11px 14px 11px 54px;
+            background: var(--input-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            font-size: 14px;
+            color: #ffffff;
+            outline: none;
+            box-sizing: border-box;
+            transition: all 0.15s ease;
+        }
+
+
+        .input-box input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px var(--accent-glow);
+        }
+
+
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 20px 0;
+            font-size: 13px;
+            color: #e5e7eb;
+            cursor: pointer;
+        }
+
+
+        .checkbox-wrapper input {
+            accent-color: var(--accent);
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+
+        /* Metrics Display Board */
+        .results-panel {
+            background: rgba(11, 15, 25, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            padding: 24px;
+            margin-top: 35px;
+        }
+
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+
+        .result-row:last-of-type {
+            border-bottom: none;
+        }
+
+
+        .result-value {
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+
+        /* Granular Itemized Acquisition Costs */
+        .fee-breakdown-box {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin: 8px 0 16px 0;
+        }
+
+
+        .fee-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            padding: 5px 0;
+            color: var(--text-secondary);
+        }
+        
+        .fee-item .fee-name {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+
+        .fee-item .fee-val {
+            color: #cbd5e1;
+            font-weight: 500;
+        }
+
+
+        .highlight {
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.12) 0%, rgba(14, 165, 233, 0.02) 100%);
+            border: 1px solid rgba(14, 165, 233, 0.25);
+            border-radius: 14px;
+            padding: 20px;
+            margin-top: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+
+        .highlight span:first-child {
+            font-weight: 500;
+            color: #f1f5f9;
+            font-size: 14px;
+        }
+
+
+        .highlight .hero-yield {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent);
+            text-shadow: 0 0 12px rgba(14, 165, 233, 0.3);
+        }
+
+
+        /* Data Matrix Tables */
+        .table-container {
+            overflow-x: auto;
+            margin-top: 20px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            background: rgba(0, 0, 0, 0.15);
+        }
+
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            min-width: 580px;
+        }
+
+
+        th, td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+
+        th {
+            background: var(--table-header);
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 12px;
+            letter-spacing: 0.3px;
+        }
+
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+
+        .nested-row {
+            padding-left: 26px;
+            color: var(--text-secondary);
+            font-size: 12px;
+        }
+
+
+        .row-bold {
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+
+        .row-total {
+            background: rgba(255, 255, 255, 0.01);
+            font-weight: 600;
+        }
+
+
+        .row-yield-metric {
+            background: rgba(34, 197, 94, 0.05);
+            font-weight: 700;
+            color: #4ade80;
+        }
+
+
+        /* Contact Section */
+        .cta-wrapper {
+            margin-top: 40px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 30px;
+        }
+
+
+        .whatsapp-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background-color: var(--whatsapp);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 13px 36px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 15px;
+            transition: all 0.2s ease;
+            box-shadow: 0 8px 20px rgba(34, 197, 94, 0.2);
+        }
+
+
+        .whatsapp-btn:hover {
+            transform: translateY(-1.5px);
+            background-color: var(--whatsapp-hover);
+            box-shadow: 0 12px 28px rgba(34, 197, 94, 0.3);
+        }
+
+
+        .whatsapp-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+    </style>
+</head>
+<body>
+
+
+<div class="container">
+    <h1>All-Emirate Net Yield Analyst</h1>
+    <div class="subtitle">Unified Real Estate Capitalization & Sunk Transaction Underwriting Across the UAE</div>
+    <div class="author-tag">By Vishal Rao</div>
+
+
+    <!-- 7 Emirates Segmented Grid -->
+    <div class="emirate-grid">
+        <button class="emirate-btn active" id="em-dubai" onclick="setEmirate('dubai')">Dubai</button>
+        <button class="emirate-btn" id="em-abudhabi" onclick="setEmirate('abudhabi')">Abu Dhabi</button>
+        <button class="emirate-btn" id="em-sharjah" onclick="setEmirate('sharjah')">Sharjah</button>
+        <button class="emirate-btn" id="em-ajman" onclick="setEmirate('ajman')">Ajman</button>
+        <button class="emirate-btn" id="em-rak" onclick="setEmirate('rak')">RAK</button>
+        <button class="emirate-btn" id="em-uaq" onclick="setEmirate('uaq')">UAQ</button>
+        <button class="emirate-btn" id="em-fujairah" onclick="setEmirate('fujairah')">Fujairah</button>
+    </div>
+
+
+    <!-- Strategy Selection Switch -->
+    <div class="toggle-group">
+        <button class="toggle-btn active" id="btn-primary" onclick="setMarket('primary')">Primary Market (Off-Plan)</button>
+        <button class="toggle-btn" id="btn-secondary" onclick="setMarket('secondary')">Secondary Market (Resale)</button>
+    </div>
+
+
+    <div class="section-title">Asset Acquisition Values</div>
+    <div class="grid">
+        <div class="input-wrapper">
+            <label>Contract Purchase Price</label>
+            <div class="input-box"><span>AED</span><input type="number" id="purchasePrice" value="1500000" oninput="calculate()"></div>
+        </div>
+        <div class="input-wrapper">
+            <label>Mortgage Financed Principal (Optional)</label>
+            <div class="input-box"><span>AED</span><input type="number" id="mortgageAmount" value="0" oninput="calculate()"></div>
+            <div class="hint">Standard non-resident parameters cap out near 50%-60% LTV parameters</div>
+        </div>
+    </div>
+
+
+    <!-- Rental Framework Selection -->
+    <div class="toggle-group" style="margin-top: 20px;">
+        <button class="toggle-btn active" id="btn-rent-method-prop" onclick="setRentMethod('yield')">Target Gross Brochure Yield %</button>
+        <button class="toggle-btn" id="btn-rent-method-actual" onclick="setRentMethod('actual')">Known Actual Annual Rent</button>
+    </div>
+
+
+    <div class="grid">
+        <div class="input-wrapper" id="dev-yield-box">
+            <label>Projected Gross Yield (%)</label>
+            <div class="input-box"><span>%</span><input type="number" id="devYieldPercent" value="8" step="0.1" oninput="calculate()"></div>
+        </div>
+        <div class="input-wrapper" id="actual-rent-box" style="display:none;">
+            <label>Annual Gross Rent</label>
+            <div class="input-box"><span>AED</span><input type="number" id="annualGrossRent" value="120000" oninput="calculate()"></div>
+        </div>
+    </div>
+
+
+    <div class="section-title">Operating Cash Flow Deductions</div>
+    <div class="grid">
+        <div class="input-wrapper">
+            <label>Structural Vacancy Rate (%)</label>
+            <div class="input-box"><span>%</span><input type="number" id="vacancyRate" value="8" oninput="calculate()"></div>
+            <div class="hint">Market average metrics align between 8% to 12%</div>
+        </div>
+        <div class="input-wrapper">
+            <label>Annual Community Service Charges</label>
+            <div class="input-box"><span>AED</span><input type="number" id="serviceCharge" value="15000" oninput="calculate()"></div>
+        </div>
+        <div class="input-wrapper">
+            <label>Property Management Fee (%)</label>
+            <div class="input-box"><span>%</span><input type="number" id="managementFee" value="0" oninput="calculate()"></div>
+            <div class="hint">Full professional asset governance scales between 7% to 10%</div>
+        </div>
+        <div class="input-wrapper">
+            <label>Asset Maintenance & Insurance Reserves</label>
+            <div class="input-box"><span>AED</span><input type="number" id="maintenanceReserve" value="2000" oninput="calculate()"></div>
+        </div>
+    </div>
+
+
+    <div class="section-title">Statutory Incentives & Concessions</div>
+    <div class="checkbox-wrapper" id="waiver-container">
+        <input type="checkbox" id="govFeeWaived" onchange="calculate()">
+        <label for="govFeeWaived" id="waiver-label">Developer is waiving structural transfer fees</label>
+    </div>
+
+
+    <!-- Performance Dashboard Board -->
+    <div class="results-panel">
+        <div class="result-row">
+            <span>Total Capital Allocation (Out-of-Pocket Equity Required):</span>
+            <span class="result-value" id="out-total-entry" style="color:#ffffff; font-weight:700;">—</span>
+        </div>
+
+
+        <!-- Dynamic Itemized Fee Matrix Box -->
+        <div class="fee-breakdown-box">
+            <div class="fee-item"><span class="fee-name" id="lbl-trans-fee">Transfer Surcharge</span><span class="fee-val" id="val-trans-fee">AED 0</span></div>
+            <div class="fee-item"><span class="fee-name" id="lbl-trustee-fee">Government Administrative Registration</span><span class="fee-val" id="val-trustee-fee">AED 0</span></div>
+            <div class="fee-item"><span class="fee-name" id="lbl-pre-reg-fee">Interim Pre-Registration / Oqood</span><span class="fee-val" id="val-pre-reg-fee">AED 0</span></div>
+            <div class="fee-item"><span class="fee-name">Brokerage Agency Fee (Inc. VAT)</span><span class="fee-val" id="val-agency-fee">AED 0</span></div>
+            <div class="fee-item"><span class="fee-name">Developer NOC & Conveyancing Overhead</span><span class="fee-val" id="val-noc-fee">AED 0</span></div>
+            <div class="fee-item" id="row-mort-reg" style="display:none;"><span class="fee-name">Mortgage Land Registry Registration Fee</span><span class="fee-val" id="val-mort-reg">AED 0</span></div>
+            <div class="fee-item" id="row-mort-bank" style="display:none;"><span class="fee-name">Bank Processing & Valuation (Inc. VAT)</span><span class="fee-val" id="val-mort-bank">AED 0</span></div>
+        </div>
+
+
+        <div class="result-row">
+            <span>Net Operating Income (NOI - Annual Basis):</span>
+            <span class="result-value" id="out-noi">—</span>
+        </div>
+        <div class="result-row">
+            <span>Asset Capitalization Net Yield (Ongoing Performance):</span>
+            <span class="result-value" id="out-net-yield">—</span>
+        </div>
+        <div class="highlight">
+            <span>True Year 1 Net Capital Position (Sunk Acquisition Drag Included):</span>
+            <span class="hero-yield" id="out-true-y1">—</span>
+        </div>
+    </div>
+
+
+    <!-- 3-Year Forecasting Matrix -->
+    <div class="section-title">Strategic Multi-Year Output Performance</div>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Performance Underwriting Matrix</th>
+                    <th>Year 1</th>
+                    <th>Year 2</th>
+                    <th>Year 3</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="row-bold">
+                    <td>Gross Rental Income Portfolio Revenue</td>
+                    <td id="t-gross-y1">—</td>
+                    <td id="t-gross-y2">—</td>
+                    <td id="t-gross-y3">—</td>
+                </tr>
+                <tr>
+                    <td class="nested-row">Less: Structural Vacancy Deductions</td>
+                    <td id="t-vac-y1">—</td>
+                    <td id="t-vac-y2">—</td>
+                    <td id="t-vac-y3">—</td>
+                </tr>
+                <tr>
+                    <td class="nested-row">Less: Community Infrastructure Maintenance Expenses</td>
+                    <td id="t-sc-y1">—</td>
+                    <td id="t-sc-y2">—</td>
+                    <td id="t-sc-y3">—</td>
+                </tr>
+                <tr>
+                    <td class="nested-row">Less: Property Governance, Upkeep & Insurances</td>
+                    <td id="t-maint-y1">—</td>
+                    <td id="t-maint-y2">—</td>
+                    <td id="t-maint-y3">—</td>
+                </tr>
+                <tr class="row-bold">
+                    <td>Net Operating Income (NOI)</td>
+                    <td id="t-noi-y1">—</td>
+                    <td id="t-noi-y2">—</td>
+                    <td id="t-noi-y3">—</td>
+                </tr>
+                <tr>
+                    <td id="t-gov-label-row">Total Itemized Closing Sunk Expenditures</td>
+                    <td id="t-fees-y1">—</td>
+                    <td>AED 0</td>
+                    <td>AED 0</td>
+                </tr>
+                <tr class="row-total">
+                    <td>True Net Cash Liquidity Flow</td>
+                    <td id="t-netpos-y1">—</td>
+                    <td id="t-netpos-y2">—</td>
+                    <td id="t-netpos-y3">—</td>
+                </tr>
+                <tr class="row-yield-metric">
+                    <td>True Adjusted Cash-on-Cash Capital Yield</td>
+                    <td id="t-yield-y1">—</td>
+                    <td id="t-yield-y2">—</td>
+                    <td id="t-yield-y3">—</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <!-- Client Conversion Hub Anchor -->
+    <div class="cta-wrapper">
+        <a href="https://wa.me/971501925007?text=Hi%20Vishal,%20I%20have%20been%20modeling%20a%20deal%20on%20your%20Net%20Yield%20Analyst%20platform%20and%20want%20to%20underwrite%20this%20specific%20property%20together." 
+           target="_blank" 
+           class="whatsapp-btn">
+            <svg viewBox="0 0 24 24">
+                <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397 0 11.948 0c3.179.001 6.165 1.236 8.41 3.48 2.245 2.244 3.477 5.23 3.474 8.41-.004 6.597-5.341 11.945-11.892 11.945-1.997-.001-3.957-.503-5.69-1.462L0 24zm6.59-4.846c1.6.95 3.197 1.449 4.771 1.451 5.405 0 9.801-4.379 9.804-9.76a9.71 9.71 0 0 0-2.833-6.904A9.75 9.75 0 0 0 11.948 1.14c-5.41 0-9.802 4.381-9.806 9.761a9.68 9.68 0 0 0 1.492 5.001l-.102.163-1.01 3.693 3.79-.984.155.092zM17.472 14.38c-.32-.16-1.89-.93-2.185-1.04-.294-.11-.51-.16-.724.16-.214.32-.83 1.04-1.014 1.25-.185.21-.37.24-.69.08-1.148-.572-1.942-1.005-2.699-2.3-.184-.31.184-.29.529-.98.06-.12.03-.23-.014-.32-.044-.09-.41-1.01-.56-1.38-.147-.36-.297-.31-.41-.32-.107-.002-.23-.003-.35-.003-.12 0-.32.045-.488.232-.168.187-.64.625-.64 1.524 0 .899.656 1.768.746 1.892.09.124 1.292 1.973 3.13 2.767.438.19.78.304 1.047.387.44.14.84.12 1.157.073.354-.053 1.89-.773 2.157-1.481.266-.707.266-1.314.187-1.441-.079-.126-.293-.205-.613-.365z"/>
+            </svg>
+            Connect with Vishal Rao
+        </a>
+    </div>
+</div>
+
+
+<script>
+    let activeEmirate = 'dubai';
+    let marketType = 'primary';
+    let rentMethod = 'yield';
+
+
+    const emiratesList = ['dubai', 'abudhabi', 'sharjah', 'ajman', 'rak', 'uaq', 'fujairah'];
+
+
+    function setEmirate(emirate) {
+        activeEmirate = emirate;
+        
+        // Handle Active Class Switching
+        emiratesList.forEach(em => {
+            document.getElementById(`em-${em}`).classList.toggle('active', em === emirate);
+        });
+        
+        const label = document.getElementById('waiver-label');
+        if (emirate === 'dubai') label.innerText = "Developer is waiving the 4% DLD fee";
+        else if (emirate === 'abudhabi') label.innerText = "Developer is waiving the 2% ADM fee";
+        else if (emirate === 'sharjah') label.innerText = "Developer is waiving the 4% SRD fee";
+        else if (emirate === 'ajman') label.innerText = "Developer is waiving the 3% AjmanRE fee";
+        else if (emirate === 'rak') label.innerText = "Developer is waiving the 4% RAK Land fee";
+        else if (emirate === 'uaq') label.innerText = "Developer is waiving the 2% UAQ Land fee";
+        else if (emirate === 'fujairah') label.innerText = "Developer is waiving the 2% Fujairah Municipality fee";
+        
+        calculate();
+    }
+
+
+    function setMarket(type) {
+        marketType = type;
+        document.getElementById('btn-primary').classList.toggle('active', type === 'primary');
+        document.getElementById('btn-secondary').classList.toggle('active', type === 'secondary');
+        
+        document.getElementById('waiver-container').style.display = type === 'primary' ? 'flex' : 'none';
+        if(type === 'secondary') document.getElementById('govFeeWaived').checked = false;
+        
+        calculate();
+    }
+
+
+    function setRentMethod(method) {
+        rentMethod = method;
+        document.getElementById('btn-rent-method-prop').classList.toggle('active', method === 'yield');
+        document.getElementById('btn-rent-method-actual').classList.toggle('active', method === 'actual');
+        
+        document.getElementById('dev-yield-box').style.display = method === 'yield' ? 'block' : 'none';
+        document.getElementById('actual-rent-box').style.display = method === 'actual' ? 'block' : 'none';
+        
+        calculate();
+    }
+
+
+    function formatAED(val) {
+        return 'AED ' + Math.round(val).toLocaleString();
+    }
+
+
+    function calculate() {
+        const price = parseFloat(document.getElementById('purchasePrice').value) || 0;
+        const mortgage = parseFloat(document.getElementById('mortgageAmount').value) || 0;
+        const vacancyRate = (parseFloat(document.getElementById('vacancyRate').value) || 0) / 100;
+        const serviceCharge = parseFloat(document.getElementById('serviceCharge').value) || 0;
+        const mgmtRate = (parseFloat(document.getElementById('managementFee').value) || 0) / 100;
+        const maintReserve = parseFloat(document.getElementById('maintenanceReserve').value) || 0;
+        const govFeeWaived = document.getElementById('govFeeWaived').checked;
+
+
+        let grossRent = 0;
+        if (rentMethod === 'yield') {
+            const devYield = (parseFloat(document.getElementById('devYieldPercent').value) || 0) / 100;
+            grossRent = price * devYield;
+            document.getElementById('annualGrossRent').value = Math.round(grossRent);
+        } else {
+            grossRent = parseFloat(document.getElementById('annualGrossRent').value) || 0;
+        }
+
+
+        let governmentTransferFee = 0;
+        let registrationTrusteeFee = 0;
+        let oqoodPreRegFee = 0;
+        let agencyFee = marketType === 'secondary' ? (price * 0.02) * 1.05 : 0; // 2% + 5% VAT
+        let nocAndConveyancing = 0;
+        let mortgageRegistryFee = 0;
+        let mortgageBankFee = 0;
+
+
+        // Unified 7 Emirate Calculation Algorithms
+        if (activeEmirate === 'dubai') {
+            document.getElementById('lbl-trans-fee').innerText = "DLD Transfer Fee (4%)";
+            document.getElementById('lbl-trustee-fee').innerText = "DLD Registration Trustee Fee (+VAT)";
+            document.getElementById('lbl-pre-reg-fee').innerText = "Oqood Admin / Portal Fee";
+            governmentTransferFee = govFeeWaived ? 0 : (price * 0.04);
+            registrationTrusteeFee = price >= 500000 ? 4410 : 2205; 
+            oqoodPreRegFee = marketType === 'primary' ? 5800 : 0; 
+            nocAndConveyancing = marketType === 'secondary' ? 7500 : 0; 
+            if (mortgage > 0) {
+                mortgageRegistryFee = (mortgage * 0.0025) + 290; 
+                mortgageBankFee = (mortgage * 0.01 * 1.05) + 3150; 
+            }
+        } else if (activeEmirate === 'abudhabi') {
+            document.getElementById('lbl-trans-fee').innerText = "ADM Transfer Fee (2%)";
+            document.getElementById('lbl-trustee-fee').innerText = "ADM Title Issuance Fee";
+            document.getElementById('lbl-pre-reg-fee').innerText = "ADM Registration Portal Fee";
+            governmentTransferFee = govFeeWaived ? 0 : (price * 0.02);
+            registrationTrusteeFee = 1000; 
+            oqoodPreRegFee = marketType === 'primary' ? 1000 : 0; 
+            nocAndConveyancing = marketType === 'secondary' ? 6500 : 0; 
+            if (mortgage > 0) {
+                mortgageRegistryFee = (mortgage * 0.001) + 1000; 
+                mortgageBankFee = (mortgage * 0.01 * 1.05) + 3150;
+            }
+        } else if (activeEmirate === 'sharjah') {
+            document.getElementById('lbl-trans-fee').innerText = "SRD Registration Surcharge (4%)";
+            document.getElementById('lbl-trustee-fee').innerText = "SRD Smart Document Issuance Fee";
+            document.getElementById('lbl-pre-reg-fee').innerText = "Initial Developer Booking Attestation";
+            governmentTransferFee = govFeeWaived ? 0 : (price * 0.04);
+            registrationTrusteeFee = 1500; 
+            oqoodPreRegFee = marketType === 'primary' ? 1000 : 0; 
+            nocAndConveyancing = marketType === 'secondary' ? 6000 : 0; 
+            if (mortgage > 0) {
+                mortgageRegistryFee = (mortgage * 0.0025) + 500; 
+                mortgageBankFee = (mortgage * 0.01 * 1.05) + 3150;
+            }
+        } else if (activeEmirate === 'ajman') {
+            document.getElementById('lbl-trans-fee').innerText = "AjmanRE Registration Fee (3%)";
+            document.getElementById('lbl-trustee-fee').innerText = "AjmanRE Title Deed Issuance Fee";
+            document.getElementById('lbl-pre-reg-fee').innerText = "Ajman Pro-Rata Contract Admin Fee";
+            governmentTransferFee = govFeeWaived ? 0 : (price * 0.03); 
+            registrationTrusteeFee = 350; 
+            oqoodPreRegFee = marketType === 'primary' ? 1500 : 0; 
+            nocAndConveyancing = marketType === 'secondary' ? 5500 : 0; 
+            if (mortgage > 0) {
+                mortgageRegistryFee = (mortgage * 0.0025) + 500; 
+                mortgageBankFee = (mortgage * 0.01 * 1.05) + 2625;
+            }
+        } else if (activeEmirate === 'rak') {
+            document.getElementById('lbl-trans-fee').innerText = "RAK Land Transfer Fee (4%)";
+            document.getElementById('lbl-trustee-fee').innerText = "RAK Title Deed & Validation Surcharge";
+            document.getElementById('lbl-pre-reg-fee').innerText = "Mouroo / Interim Registration Fee";
+            governmentTransferFee = govFeeWaived ? 0 : (price * 0.04);
+            registrationTrusteeFee = 1000; 
+            oqoodPreRegFee = marketType === 'primary' ? 1000 : 0; 
+            nocAndConveyancing = marketType === 'secondary' ? 5500 : 0; 
+            if (mortgage > 0) {
+                mortgageRegistryFee = (mortgage * 0.0025) + 500; 
+                mortgageBankFee = (mortgage * 0.01 * 1.05) + 3150;
+            }
+        } else if (activeEmirate === 'uaq') {
+            document.getElementById('lbl-trans-fee').innerText = "UAQ Transfer Surcharge (2%)";
+            document.getElementById('lbl-trustee-fee').innerText = "UAQ Attestation Processing Ledger";
+            document.getElementById('lbl-pre-reg-fee').innerText = "Contract Execution Clearance Surcharge";
+            governmentTransferFee = govFeeWaived ? 0 : (price * 0.02);
+            registrationTrusteeFee = 1000; 
+            oqoodPreRegFee = marketType === 'primary' ? 500 : 0; 
+            nocAndConveyancing = marketType === 'secondary' ? 5000 : 0; 
+            if (mortgage > 0) {
+                mortgageRegistryFee = (mortgage * 0.0025) + 500; 
+                mortgageBankFee = (mortgage * 0.01 * 1.05) + 2500;
+            }
+        } else if (activeEmirate === 'fujairah') {
+            document.getElementById('lbl-trans-fee').innerText = "Fujairah Municipality Transfer (2%)";
+            document.getElementById('lbl-trustee-fee').innerText = "Title Ledger Administrative Issuance";
+            document.getElementById('lbl-pre-reg-fee').innerText = "Interim Mapping Clearance Surcharge";
+            governmentTransferFee = govFeeWaived ? 0 : (price * 0.02);
+            registrationTrusteeFee = 1500; 
+            oqoodPreRegFee = marketType === 'primary' ? 500 : 0; 
+            nocAndConveyancing = marketType === 'secondary' ? 5000 : 0; 
+            if (mortgage > 0) {
+                mortgageRegistryFee = (mortgage * 0.0025) + 500; 
+                mortgageBankFee = (mortgage * 0.01 * 1.05) + 2500;
+            }
+        }
+
+
+        // Hydrate Itemized Breakdown Frontend Fields
+        document.getElementById('val-trans-fee').innerText = formatAED(governmentTransferFee);
+        document.getElementById('val-trustee-fee').innerText = formatAED(registrationTrusteeFee);
+        document.getElementById('val-pre-reg-fee').innerText = formatAED(oqoodPreRegFee);
+        document.getElementById('val-agency-fee').innerText = formatAED(agencyFee);
+        document.getElementById('val-noc-fee').innerText = formatAED(nocAndConveyancing);
+        
+        if (mortgage > 0) {
+            document.getElementById('row-mort-reg').style.display = 'flex';
+            document.getElementById('row-mort-bank').style.display = 'flex';
+            document.getElementById('val-mort-reg').innerText = formatAED(mortgageRegistryFee);
+            document.getElementById('val-mort-bank').innerText = formatAED(mortgageBankFee);
+        } else {
+            document.getElementById('row-mort-reg').style.display = 'none';
+            document.getElementById('row-mort-bank').style.display = 'none';
+        }
+
+
+        let totalOneTimeFees = governmentTransferFee + registrationTrusteeFee + oqoodPreRegFee + agencyFee + nocAndConveyancing + mortgageRegistryFee + mortgageBankFee;
+        let equityRequired = (price - mortgage) + totalOneTimeFees;
+
+
+        let vacancyLoss = grossRent * vacancyRate;
+        let mgmtFee = grossRent * mgmtRate;
+        let totalRunningCosts = vacancyLoss + serviceCharge + mgmtFee + maintReserve;
+        let noi = grossRent - totalRunningCosts;
+
+
+        let netOperatingYield = price > 0 ? (noi / price) * 100 : 0;
+        let trueYear1Yield = equityRequired > 0 ? ((noi - totalOneTimeFees) / equityRequired) * 100 : 0;
+        let ongoingNetYieldOnEquity = equityRequired > 0 ? (noi / equityRequired) * 100 : 0;
+
+
+        // Display Primary Financial Calculations
+        document.getElementById('out-total-entry').innerText = formatAED(equityRequired);
+        document.getElementById('out-noi').innerText = formatAED(noi);
+        document.getElementById('out-net-yield').innerText = netOperatingYield.toFixed(2) + '%';
+        document.getElementById('out-true-y1').innerText = trueYear1Yield.toFixed(2) + '%';
+
+
+        // Display Multi-Year Table Matrices Loop
+        for (let i = 1; i <= 3; i++) {
+            document.getElementById(`t-gross-y${i}`).innerText = formatAED(grossRent);
+            document.getElementById(`t-vac-y${i}`).innerText = formatAED(vacancyLoss);
+            document.getElementById(`t-sc-y${i}`).innerText = formatAED(serviceCharge);
+            document.getElementById(`t-maint-y${i}`).innerText = formatAED(mgmtFee + maintReserve);
+            document.getElementById(`t-noi-y${i}`).innerText = formatAED(noi);
+            
+            if (i === 1) {
+                document.getElementById('t-fees-y1').innerText = formatAED(totalOneTimeFees);
+                document.getElementById('t-netpos-y1').innerText = formatAED(noi - totalOneTimeFees);
+                document.getElementById('t-yield-y1').innerText = trueYear1Yield.toFixed(2) + '%';
+            } else {
+                document.getElementById(`t-netpos-y${i}`).innerText = formatAED(noi);
+                document.getElementById(`t-yield-y${i}`).innerText = ongoingNetYieldOnEquity.toFixed(2) + '%';
+            }
+        }
+    }
+
+
+    // Initialize Calculations on Page Load
+    calculate();
+</script>
+
+
+</body>
+</html>
